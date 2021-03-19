@@ -1,5 +1,9 @@
 from matplotlib import pyplot as plt
 
+# Created utility finction, production possibility frontier and
+# indifference curve for Saving & Consumption Model with Investment Model
+# for an open economy.
+
 
 def consumption2(a1, k1, alpha):
     y1 = a1 * (k1 ** alpha)

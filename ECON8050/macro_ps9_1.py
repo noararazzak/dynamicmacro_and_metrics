@@ -1,6 +1,10 @@
 from matplotlib import pyplot as plt
 
 
+# Created Capital Stock and GDP Growth following the Solow Growth Model
+# We consider capital stock and GDP for aggregate, per worker and per effective worker
+
+
 def worker(m, l):
     output = (1 + m) * l
     return output
@@ -73,7 +77,7 @@ def calculations_agg(s, a, l, k, alpha, delta):
     plotcapitalgdp(k_list, gdp_list)
     plotcapitaltime(xlist, k_list)
     plotgdptime(xlist, gdp_list)
-    return k_star, y_star, k_list[-1], k1_list[-1], k_list[0], k1_list[0], k_list[1], k1_list[1], k_list[2], k1_list[2]
+    return k_star, y_star, k_list[-1], k1_list[-1], k_list[0]
 
 
 def calculations_pw(s, a, k, l, alpha, delta, m):
@@ -99,16 +103,20 @@ def calculations_pw(s, a, k, l, alpha, delta, m):
     plotcapitalgdp(k_list, gdp_list)
     plotcapitaltime(xlist, k_list)
     plotgdptime(xlist, gdp_list)
-    return k_star, y_star, k_list[-1], k1_list[-1], k_list[0], k1_list[0], k_list[1], k1_list[1], k_list[2], k1_list[2]
+    return k_star, y_star, k_list[-1], k1_list[-1], k_list[0], k1_list[0]
 
 
 def calculations_pew(s, a, k, l, alpha, delta, m, g):
+    k_star = (s / (delta + m + g)) ** (1 / (1 - alpha))
+    y_star = (s / (delta + m + g)) ** (alpha / (1 - alpha))
     number = range(1000)
     k1_list = []
     gdp_list = []
     for n in number:
-        k1 = capital_pew(s, a, k, alpha, delta, m, g)
-        y = gdp(k, alpha, a, l)
+        if k < k_star:
+            k1 = capital_pew(s, a, k, alpha, delta, m, g)
+            y = gdp(k, alpha, a, l)
+
         if (k1 - k) > 0.1:
             l1 = worker(m, l)
             a1 = technology(g, a)
@@ -126,6 +134,5 @@ def calculations_pew(s, a, k, l, alpha, delta, m, g):
     plotcapitalgdp(k_list, gdp_list)
     plotcapitaltime(xlist, k_list)
     plotgdptime(xlist, gdp_list)
-    k_star = (s / (delta + m + g)) ** (1 / (1 - alpha))
-    y_star = (s / (delta + m + g)) ** (alpha / (1 - alpha))
-    return k_star, y_star, k_list[-1], k1_list[-1], k_list[0], k1_list[0], k_list[1], k1_list[1], k_list[2], k1_list[2]
+
+    return k_star, y_star, k_list[-1], k1_list[-1], k_list[0], k1_list[0]
