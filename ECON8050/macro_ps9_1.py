@@ -35,6 +35,11 @@ def gdp(k, alpha, a, l):
     return output
 
 
+def gdp_per(k, alpha, a):
+    output = (k ** alpha) * (a ** (1 - alpha))
+    return output
+
+
 def plotcapitalgdp(a, b):
     plt.plot(a, b, 'r')
     plt.xlabel('k_t')
@@ -63,6 +68,8 @@ def calculations_agg(s, a, l, k, alpha, delta):
     number = range(1000)
     k1_list = []
     gdp_list = []
+    k_star = a*(s / delta) ** (1 / (1 - alpha))
+    y_star = a*(s / delta) ** (alpha / (1 - alpha))
     for n in number:
         k1 = capital_agg(s, a, k, alpha, delta)
         y = gdp(k, alpha, a, l)
@@ -71,8 +78,6 @@ def calculations_agg(s, a, l, k, alpha, delta):
         k = k1
     k_list = [10] + k1_list
     del k_list[-1]
-    k_star = (s / delta) ** (1 / (1 - alpha))
-    y_star = (s / delta) ** (alpha / (1 - alpha))
     xlist = list(range(1000))
     plotcapitalgdp(k_list, gdp_list)
     plotcapitaltime(xlist, k_list)
@@ -84,8 +89,11 @@ def calculations_pw(s, a, k, l, alpha, delta, m):
     number = range(1000)
     k1_list = []
     gdp_list = []
+    k_star = a*(s / (delta + m)) ** (1 / (1 - alpha))
+    y_star = a*(s / (delta + m)) ** (alpha / (1 - alpha))
     for n in number:
         k1 = capital_pw(s, a, k, alpha, delta, m)
+
         y = gdp(k, alpha, a, l)
         if (k1 - k) > 0.1:
             l1 = worker(m, l)
@@ -97,8 +105,6 @@ def calculations_pw(s, a, k, l, alpha, delta, m):
         l = l1
     k_list = [10] + k1_list
     del k_list[-1]
-    k_star = (s / (delta + m)) ** (1 / (1 - alpha))
-    y_star = (s / (delta + m)) ** (alpha / (1 - alpha))
     xlist = list(range(1000))
     plotcapitalgdp(k_list, gdp_list)
     plotcapitaltime(xlist, k_list)
@@ -107,8 +113,8 @@ def calculations_pw(s, a, k, l, alpha, delta, m):
 
 
 def calculations_pew(s, a, k, l, alpha, delta, m, g):
-    k_star = (s / (delta + m + g)) ** (1 / (1 - alpha))
-    y_star = (s / (delta + m + g)) ** (alpha / (1 - alpha))
+    k_star = a*(s / (delta + m + g)) ** (1 / (1 - alpha))
+    y_star = a*(s / (delta + m + g)) ** (alpha / (1 - alpha))
     number = range(1000)
     k1_list = []
     gdp_list = []
